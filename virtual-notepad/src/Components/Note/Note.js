@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import ColorPalet from './ColorPalet'
 import NoteCanvas from './NoteCanvas'
-import pixelData from './pixelData'
+import loadData from './loadData'
+import axios from 'axios'
+import { BATCH_SIZE } from './constants'
 
 function Note() {
     const [drawColor,setDrawColor] = useState({R:0,G:0,B:0})
@@ -18,7 +20,9 @@ function Note() {
     if(dataFetchRef.current) return;
     dataFetchRef.current = true;
     (async ()=> {
-      const dataFetching = pixelData(canvasWidth,canvasHeight) 
+      // const resp = await axios.post("http://localhost:4444/newNote",{"name":"NewName","BATCH_SIZE":BATCH_SIZE})
+      // console.log(resp.data);
+      const dataFetching = loadData(canvasWidth,canvasHeight) 
       setData(await dataFetching)      
     })()
   },[])
